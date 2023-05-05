@@ -1,42 +1,39 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
         StringBuilder log = new StringBuilder();
+        List<String> dirPaths = new ArrayList();
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\src");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\res");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\saveGames");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\temp");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\test");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\drawables");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\vectors");
+        dirPaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\icons");
 
-        File src = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\src");
-        File res = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\res");
-        File saveGames = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\saveGames");
-        File temp = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\temp");
+        for (String dirPath : dirPaths) {
+            mkDir(dirPath, log);
+        }
 
-        mkDir(src, log);
-        mkDir(res, log);
-        mkDir(saveGames, log);
-        mkDir(temp, log);
+        List<String> filePaths = new ArrayList();
+        filePaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\temp\\temp.txt");
+        filePaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main\\Main.java");
+        filePaths.add("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main\\Utils.java");
 
-        File main = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main");
-        File test = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\test");
-        File drawables = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\drawables");
-        File vectors = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\vectors");
-        File icons = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\res\\icons");
+        for (String filePath : filePaths) {
+            createFile(filePath, log);
+        }
 
-        mkDir(main, log);
-        mkDir(test, log);
-        mkDir(drawables, log);
-        mkDir(vectors, log);
-        mkDir(icons, log);
-
-        File tempFile = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\temp", "temp.txt");
-        File mainFile = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main", "Main.java");
-        File utilsFile = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\src\\main", "Utils.java");
-
-        createFile(tempFile, log);
-        createFile(mainFile, log);
-        createFile(utilsFile, log);
+        File tempFile = new File("C:\\Users\\Lisitsa Vera\\java\\Games\\temp\\temp.txt");
 
         if (tempFile.canWrite()) {
             try (FileWriter writer = new FileWriter(tempFile, true)) {
@@ -48,11 +45,10 @@ public class Main {
                 System.out.println(ex.getMessage());
             }
         }
-
-
     }
 
-    public static void mkDir(File dir, StringBuilder log) {
+    public static void mkDir(String dirPath, StringBuilder log) {
+        File dir = new File(dirPath);
         Date date = new Date();
         if (dir.mkdir()) {
             log.append("[" + date.toString() + "] + Создана папка " + dir.getAbsolutePath() + "\n");
@@ -61,7 +57,8 @@ public class Main {
         }
     }
 
-    public static void createFile(File file, StringBuilder log) {
+    public static void createFile(String filePath, StringBuilder log) {
+        File file = new File(filePath);
         Date date = new Date();
         try {
             if (file.createNewFile())
